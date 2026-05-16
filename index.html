@@ -11,27 +11,22 @@
   <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
 
-  <!-- Firebase SDKs -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import {
-      getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, setDoc, onSnapshot
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
+  <!-- Firebase Compat SDKs (works without type=module) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyB8dapvEnj-UfitrIeRwpRpcG3QLKwIQoI",
       authDomain: "lectrobar-app.firebaseapp.com",
       projectId: "lectrobar-app",
       storageBucket: "lectrobar-app.firebasestorage.app",
       messagingSenderId: "440745847831",
-      appId: "1:440745847831:web:bd92b673d6b0eee4684052",
-      measurementId: "G-4HYN30QBZN"
+      appId: "1:440745847831:web:bd92b673d6b0eee4684052"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const db  = getFirestore(app);
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
-    // ── Seed initial data if collections are empty ──────────────
     const INIT_USERS = [
       { uid:"u1", name:"Ahmed Al-Rashid",  email:"ahmed@lectrobar.com",  role:"admin",            active:true,  factory:null },
       { uid:"u2", name:"Sara Mohamed",     email:"sara@lectrobar.com",   role:"manager",          active:true,  factory:null },
@@ -50,29 +45,24 @@
     ];
 
     async function seedIfEmpty() {
-      const usersSnap = await getDocs(collection(db, "users"));
+      const usersSnap = await db.collection("users").get();
       if (usersSnap.empty) {
         for (const u of INIT_USERS) {
-          await setDoc(doc(db, "users", u.uid), u);
+          await db.collection("users").doc(u.uid).set(u);
         }
       }
-      const jobsSnap = await getDocs(collection(db, "jobs"));
+      const jobsSnap = await db.collection("jobs").get();
       if (jobsSnap.empty) {
         for (const j of INIT_JOBS) {
-          await setDoc(doc(db, "jobs", j.id), j);
+          await db.collection("jobs").doc(j.id).set(j);
         }
       }
     }
 
-    // Expose Firebase API to React app via window
-    window.__FB = {
-      db,
-      collection, getDocs, addDoc, updateDoc, deleteDoc, doc, setDoc, onSnapshot,
-      seedIfEmpty
-    };
-
-    // Signal that Firebase is ready
-    window.dispatchEvent(new Event("fb-ready"));
+    window.__DB = db;
+    window.__INIT_USERS = INIT_USERS;
+    window.__INIT_JOBS  = INIT_JOBS;
+    window.__seedIfEmpty = seedIfEmpty;
   </script>
 
   <style>
@@ -369,49 +359,42 @@
       "to@lectrobar.com":     "to123",
     };
 
-    /* ─── FIREBASE HELPERS ──────────────────────────────────── */
-    function getDB() { return window.__FB; }
+    /* ─── FIREBASE HELPERS (compat API) ────────────────────── */
+    function db() { return window.__DB; }
 
     async function fbGetJobs() {
-      const { db, collection, getDocs } = getDB();
-      const snap = await getDocs(collection(db, "jobs"));
-      return snap.docs.map(d => ({ ...d.data(), _docId: d.id }));
+      const snap = await db().collection("jobs").get();
+      return snap.docs.map(d => ({ ...d.data() }));
     }
     async function fbGetUsers() {
-      const { db, collection, getDocs } = getDB();
-      const snap = await getDocs(collection(db, "users"));
-      return snap.docs.map(d => ({ ...d.data(), _docId: d.id }));
+      const snap = await db().collection("users").get();
+      return snap.docs.map(d => ({ ...d.data() }));
     }
     async function fbSaveJob(data) {
-      const { db, doc, setDoc, collection, addDoc } = getDB();
       if (data.id) {
-        await setDoc(doc(db, "jobs", data.id), data);
+        await db().collection("jobs").doc(data.id).set(data);
         return data;
       } else {
         const newId = "LB-" + String(Date.now()).slice(-6);
         const newData = { ...data, id: newId };
-        await setDoc(doc(db, "jobs", newId), newData);
+        await db().collection("jobs").doc(newId).set(newData);
         return newData;
       }
     }
     async function fbDeleteJob(id) {
-      const { db, doc, deleteDoc } = getDB();
-      await deleteDoc(doc(db, "jobs", id));
+      await db().collection("jobs").doc(id).delete();
     }
     async function fbSaveUser(data) {
-      const { db, doc, setDoc } = getDB();
       const uid = data.uid || "u" + Date.now();
       const newData = { ...data, uid };
-      await setDoc(doc(db, "users", uid), newData);
+      await db().collection("users").doc(uid).set(newData);
       return newData;
     }
     async function fbUpdateUser(uid, changes) {
-      const { db, doc, updateDoc } = getDB();
-      await updateDoc(doc(db, "users", uid), changes);
+      await db().collection("users").doc(uid).update(changes);
     }
     async function fbDeleteUser(uid) {
-      const { db, doc, deleteDoc } = getDB();
-      await deleteDoc(doc(db, "users", uid));
+      await db().collection("users").doc(uid).delete();
     }
 
     /* ─── HOOKS ──────────────────────────────────────────────── */
@@ -1185,7 +1168,7 @@
 
     /* ── APP ROOT ──────────────────────────────────────────────── */
     function App() {
-      const [fbReady, setFbReady] = useState(!!window.__FB);
+      const [fbReady, setFbReady] = useState(true);
       const [loading, setLoading] = useState(true);
       const [user,    setUser]    = useState(null);
       const [jobs,    setJobs]    = useState([]);
@@ -1194,25 +1177,27 @@
       const [isDesktop, setIsDesktop] = useState(() => window.innerWidth >= 768);
       const [manualOverride, setManualOverride] = useState(false);
 
-      // Wait for Firebase to load
-      useEffect(() => {
-        if (window.__FB) { setFbReady(true); return; }
-        const handler = () => setFbReady(true);
-        window.addEventListener("fb-ready", handler);
-        return () => window.removeEventListener("fb-ready", handler);
-      }, []);
+      // Firebase is loaded synchronously via compat scripts
 
       // Load data from Firestore once Firebase is ready
       useEffect(() => {
         if (!fbReady) return;
         async function load() {
           setLoading(true);
+          const timeout = new Promise((_,rej) => setTimeout(() => rej(new Error("timeout")), 8000));
           try {
-            await window.__FB.seedIfEmpty();
-            const [j, u] = await Promise.all([fbGetJobs(), fbGetUsers()]);
+            await Promise.race([window.__seedIfEmpty(), timeout]);
+            const [j, u] = await Promise.race([
+              Promise.all([fbGetJobs(), fbGetUsers()]),
+              new Promise((_,rej) => setTimeout(() => rej(new Error("timeout")), 8000))
+            ]);
             setJobs(j);
             setUsers(u);
-          } catch(e) { console.error(e); }
+          } catch(e) {
+            console.error("Firestore error, using local data:", e);
+            setJobs(window.__INIT_JOBS || []);
+            setUsers(window.__INIT_USERS || []);
+          }
           setLoading(false);
         }
         load();
