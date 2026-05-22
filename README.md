@@ -10,23 +10,22 @@
   <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
   <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
-
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-app-compat.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-firestore-compat.min.js"></script>
   <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyB8dapvEnj-UfitrIeRwpRpcG3QLKwIQoI",
-      authDomain: "lectrobar-app.firebaseapp.com",
-      projectId: "lectrobar-app",
-      storageBucket: "lectrobar-app.firebasestorage.app",
-      messagingSenderId: "440745847831",
-      appId: "1:440745847831:web:bd92b673d6b0eee4684052"
-    };
-    firebase.initializeApp(firebaseConfig);
-    window.__fbdb = firebase.firestore();
+    try {
+      firebase.initializeApp({
+        apiKey: "AIzaSyBhL4nTzW9f6oWMUaJoySq7YsWJBK3Rdzo",
+        authDomain: "lectrobar-1229f.firebaseapp.com",
+        projectId: "lectrobar-1229f",
+        storageBucket: "lectrobar-1229f.firebasestorage.app",
+        messagingSenderId: "804752022441",
+        appId: "1:804752022441:web:7cd52f75fa97050a8b42b8",
+        measurementId: "G-01JR6YQ12S"
+      });
+      window.__fbdb = firebase.firestore();
+    } catch(e) { console.error("Firebase init:", e); }
   </script>
-
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -134,6 +133,49 @@
     .toast.success{background:#2a9d8f;color:#fff}
     .toast.error{background:#e63946;color:#fff}
     .toast.info{background:#457b9d;color:#fff}
+
+    
+    .progress-wrap{margin-top:10px}
+    .progress-bar{height:10px;background:var(--s2);border-radius:999px;overflow:hidden;border:1px solid var(--border)}
+    .progress-fill{height:100%;border-radius:999px;transition:width .3s ease}
+    .stage-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+    .stage-chip{padding:4px 8px;border-radius:999px;font-size:9px;font-family:'JetBrains Mono',monospace;border:1px solid var(--border)}
+
+
+    /* ══ NOTIFICATIONS ═══════════════════════════════════════════ */
+    .notif-btn{position:relative;background:none;border:1px solid var(--border);color:var(--muted);
+      border-radius:7px;width:34px;height:34px;cursor:pointer;font-size:16px;
+      display:flex;align-items:center;justify-content:center;transition:all .15s}
+    .notif-btn:hover{border-color:var(--accent);color:var(--accent)}
+    .notif-badge{position:absolute;top:-5px;right:-5px;background:var(--accent);color:#fff;
+      border-radius:50%;width:17px;height:17px;font-size:9px;font-weight:700;
+      display:flex;align-items:center;justify-content:center;
+      font-family:'JetBrains Mono',monospace;border:2px solid var(--bg);animation:popIn .3s ease}
+    @keyframes popIn{from{transform:scale(0)}to{transform:scale(1)}}
+    .notif-panel{position:fixed;top:56px;left:50%;transform:translateX(-50%);
+      width:min(94vw,400px);background:var(--s1);border:1px solid var(--border);
+      border-radius:14px;box-shadow:0 8px 40px rgba(0,0,0,.6);z-index:90;
+      max-height:70vh;display:flex;flex-direction:column;overflow:hidden}
+    .notif-head{display:flex;align-items:center;justify-content:space-between;
+      padding:13px 16px;border-bottom:1px solid var(--border);flex-shrink:0}
+    .notif-title{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--accent);letter-spacing:1px}
+    .notif-actions{display:flex;gap:8px;align-items:center}
+    .notif-clear{background:none;border:none;color:var(--muted);font-size:10px;cursor:pointer;
+      font-family:'JetBrains Mono',monospace;padding:3px 7px;border-radius:5px;transition:all .15s}
+    .notif-clear:hover{color:var(--accent)}
+    .notif-close{background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;line-height:1}
+    .notif-list{overflow-y:auto;flex:1}
+    .notif-empty{text-align:center;padding:32px;color:var(--muted);font-size:12px;font-family:'JetBrains Mono',monospace}
+    .notif-item{display:flex;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);
+      transition:background .15s;align-items:flex-start}
+    .notif-item:last-child{border-bottom:none}
+    .notif-item.unread{background:rgba(230,57,70,.05)}
+    .notif-item:hover{background:rgba(255,255,255,.03)}
+    .notif-icon{font-size:20px;flex-shrink:0;margin-top:1px}
+    .notif-body{flex:1;min-width:0}
+    .notif-msg{font-size:12px;color:var(--text);line-height:1.5;font-family:'Tajawal',sans-serif;margin-bottom:4px}
+    .notif-time{font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace}
+    .notif-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:5px}
 
     /* ══ LOGIN ════════════════════════════════════════════════════ */
     .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;
@@ -310,21 +352,54 @@
 
     /* ─── DATA ────────────────────────────────────────────────── */
     const MOCK_USERS = [
-      { uid:"u1", name:"Ahmed Al-Rashid",  email:"ahmed@lectrobar.com",  role:"admin",            active:true,  factory:null },
-      { uid:"u2", name:"Sara Mohamed",     email:"sara@lectrobar.com",   role:"manager",          active:true,  factory:null },
-      { uid:"u3", name:"Khalid Hassan",    email:"khalid@lectrobar.com", role:"operator",         active:true,  factory:null },
-      { uid:"u4", name:"Nadia Yousef",     email:"nadia@lectrobar.com",  role:"viewer",           active:false, factory:null },
-      { uid:"u5", name:"Factory 1 User",   email:"f1@lectrobar.com",     role:"factory",          active:true,  factory:1    },
-      { uid:"u6", name:"Factory 2 User",   email:"f2@lectrobar.com",     role:"factory",          active:true,  factory:2    },
-      { uid:"u7", name:"Factory 3 User",   email:"f3@lectrobar.com",     role:"factory",          active:true,  factory:3    },
-      { uid:"u8", name:"Technical Office", email:"to@lectrobar.com",     role:"technical_office", active:true,  factory:null },
+      { uid:"u1", name:"Ahmed Al-Rashid",  email:"ahmed@lectrobar.com",  role:"admin",            active:true,  factory:null, stage:null },
+      { uid:"u2", name:"Sara Mohamed",     email:"sara@lectrobar.com",   role:"manager",          active:true,  factory:null, stage:null },
+      { uid:"u3", name:"Khalid Hassan",    email:"khalid@lectrobar.com", role:"operator",         active:true,  factory:null, stage:null },
+      { uid:"u4", name:"Nadia Yousef",     email:"nadia@lectrobar.com",  role:"viewer",           active:false, factory:null, stage:null },
+      // Factory 1 - main user
+      { uid:"u5",  name:"Factory 1 User",       email:"f1@lectrobar.com",           role:"factory", active:true, factory:1, stage:null },
+      // Factory 1 - stage users
+      { uid:"u5a", name:"F1 - Aluminum",        email:"f1.aluminum@lectrobar.com",  role:"factory", active:true, factory:1, stage:"Aluminum"   },
+      { uid:"u5b", name:"F1 - Bar",             email:"f1.bar@lectrobar.com",       role:"factory", active:true, factory:1, stage:"Bar"        },
+      { uid:"u5c", name:"F1 - Tin",             email:"f1.tin@lectrobar.com",       role:"factory", active:true, factory:1, stage:"Tin"        },
+      { uid:"u5d", name:"F1 - Insulation",      email:"f1.insulation@lectrobar.com",role:"factory", active:true, factory:1, stage:"Insulation" },
+      { uid:"u5e", name:"F1 - Assembly",        email:"f1.assembly@lectrobar.com",  role:"factory", active:true, factory:1, stage:"Assembly"   },
+      { uid:"u5f", name:"F1 - Quality",         email:"f1.quality@lectrobar.com",   role:"factory", active:true, factory:1, stage:"Quality"    },
+      // Factory 2 - main user
+      { uid:"u6",  name:"Factory 2 User",       email:"f2@lectrobar.com",           role:"factory", active:true, factory:2, stage:null },
+      // Factory 2 - stage users
+      { uid:"u6a", name:"F2 - Aluminum",        email:"f2.aluminum@lectrobar.com",  role:"factory", active:true, factory:2, stage:"Aluminum"   },
+      { uid:"u6b", name:"F2 - Bar",             email:"f2.bar@lectrobar.com",       role:"factory", active:true, factory:2, stage:"Bar"        },
+      { uid:"u6c", name:"F2 - Tin",             email:"f2.tin@lectrobar.com",       role:"factory", active:true, factory:2, stage:"Tin"        },
+      { uid:"u6d", name:"F2 - Insulation",      email:"f2.insulation@lectrobar.com",role:"factory", active:true, factory:2, stage:"Insulation" },
+      { uid:"u6e", name:"F2 - Assembly",        email:"f2.assembly@lectrobar.com",  role:"factory", active:true, factory:2, stage:"Assembly"   },
+      { uid:"u6f", name:"F2 - Quality",         email:"f2.quality@lectrobar.com",   role:"factory", active:true, factory:2, stage:"Quality"    },
+      // Factory 3 - main user
+      { uid:"u7",  name:"Factory 3 User",       email:"f3@lectrobar.com",           role:"factory", active:true, factory:3, stage:null },
+      // Factory 3 - stage users
+      { uid:"u7a", name:"F3 - Aluminum",        email:"f3.aluminum@lectrobar.com",  role:"factory", active:true, factory:3, stage:"Aluminum"   },
+      { uid:"u7b", name:"F3 - Bar",             email:"f3.bar@lectrobar.com",       role:"factory", active:true, factory:3, stage:"Bar"        },
+      { uid:"u7c", name:"F3 - Tin",             email:"f3.tin@lectrobar.com",       role:"factory", active:true, factory:3, stage:"Tin"        },
+      { uid:"u7d", name:"F3 - Insulation",      email:"f3.insulation@lectrobar.com",role:"factory", active:true, factory:3, stage:"Insulation" },
+      { uid:"u7e", name:"F3 - Assembly",        email:"f3.assembly@lectrobar.com",  role:"factory", active:true, factory:3, stage:"Assembly"   },
+      { uid:"u7f", name:"F3 - Quality",         email:"f3.quality@lectrobar.com",   role:"factory", active:true, factory:3, stage:"Quality"    },
+      { uid:"u8",  name:"Technical Office",     email:"to@lectrobar.com",           role:"technical_office", active:true, factory:null, stage:null },
+    ];
+
+    const MANUFACTURING_STAGES = [
+      "Aluminum",
+      "Bar",
+      "Tin",
+      "Insulation",
+      "Assembly",
+      "Quality"
     ];
 
     const MOCK_JOBS = [
-      { id:"LB-001", name:"Alpha Cable",  ampere:100, config:"3PH+FN+FE", series:"LSBA", qty:450, ip:10, date:"2024-01-15", exitDate:"2024-02-01", factory:3, status:"Finished"            },
-      { id:"LB-002", name:"Beta Line",    ampere:63,  config:"3PH+HN",    series:"LSB2", qty:280, ip:6,  date:"2024-01-18", exitDate:"",           factory:1, status:"Under Manufacturing" },
-      { id:"LB-003", name:"Gamma Wire",   ampere:25,  config:"3PH+HE",    series:"LSBA", qty:900, ip:22, date:"2024-02-01", exitDate:"",           factory:2, status:"Approved"            },
-      { id:"LB-004", name:"Delta Bundle", ampere:150, config:"3PH+HN+HE", series:"LSB2", qty:120, ip:4,  date:"2024-02-10", exitDate:"",           factory:5, status:"Under Manufacturing" },
+      { id:"LB-001", name:"Alpha Cable",  ampere:100, config:"3PH+FN+FE", series:"LSBA", qty:450, ip:10, date:"2024-01-15", exitDate:"2024-02-01", factory:3, status:"Finished", currentStage:"Quality" },
+      { id:"LB-002", name:"Beta Line",    ampere:63,  config:"3PH+HN",    series:"LSB2", qty:280, ip:6,  date:"2024-01-18", exitDate:"",           factory:1, status:"Under Manufacturing", currentStage:"Copper" },
+      { id:"LB-003", name:"Gamma Wire",   ampere:25,  config:"3PH+HE",    series:"LSBA", qty:900, ip:22, date:"2024-02-01", exitDate:"",           factory:2, status:"Approved", currentStage:"Aluminum" },
+      { id:"LB-004", name:"Delta Bundle", ampere:150, config:"3PH+HN+HE", series:"LSB2", qty:120, ip:4,  date:"2024-02-10", exitDate:"",           factory:5, status:"Under Manufacturing", currentStage:"Assembly" },
     ];
 
     const ROLES = {
@@ -359,23 +434,59 @@
       { label:"Admin",     email:"ahmed@lectrobar.com"  },
       { label:"Manager",   email:"sara@lectrobar.com"   },
       { label:"Operator",  email:"khalid@lectrobar.com" },
-      { label:"Viewer",    email:"nadia@lectrobar.com"  },
-      { label:"Factory 1", email:"f1@lectrobar.com"     },
-      { label:"Factory 2", email:"f2@lectrobar.com"     },
-      { label:"Factory 3", email:"f3@lectrobar.com"     },
       { label:"Tech.Off",  email:"to@lectrobar.com"     },
+      { label:"F1 Main",   email:"f1@lectrobar.com"     },
+      { label:"F1 Alum",   email:"f1.aluminum@lectrobar.com" },
+      { label:"F1 Bar",    email:"f1.bar@lectrobar.com" },
+      { label:"F1 Tin",    email:"f1.tin@lectrobar.com" },
+      { label:"F2 Main",   email:"f2@lectrobar.com"     },
+      { label:"F2 Alum",   email:"f2.aluminum@lectrobar.com" },
+      { label:"F2 Bar",    email:"f2.bar@lectrobar.com" },
+      { label:"F3 Main",   email:"f3@lectrobar.com"     },
     ];
 
-    const USER_PASSWORDS = {
-      "ahmed@lectrobar.com":  "admin123",
-      "sara@lectrobar.com":   "manager123",
-      "khalid@lectrobar.com": "op123",
-      "nadia@lectrobar.com":  "view123",
-      "f1@lectrobar.com":     "f1pass",
-      "f2@lectrobar.com":     "f2pass",
-      "f3@lectrobar.com":     "f3pass",
-      "to@lectrobar.com":     "to123",
+    // Passwords stored in memory + Firebase (collection: passwords)
+    let USER_PASSWORDS = {
+      "ahmed@lectrobar.com":              "admin123",
+      "sara@lectrobar.com":               "manager123",
+      "khalid@lectrobar.com":             "op123",
+      "nadia@lectrobar.com":              "view123",
+      "f1@lectrobar.com":                 "f1pass",
+      "f1.aluminum@lectrobar.com":        "f1alum",
+      "f1.bar@lectrobar.com":             "f1bar",
+      "f1.tin@lectrobar.com":             "f1tin",
+      "f1.insulation@lectrobar.com":      "f1insu",
+      "f1.assembly@lectrobar.com":        "f1assy",
+      "f1.quality@lectrobar.com":         "f1qual",
+      "f2@lectrobar.com":                 "f2pass",
+      "f2.aluminum@lectrobar.com":        "f2alum",
+      "f2.bar@lectrobar.com":             "f2bar",
+      "f2.tin@lectrobar.com":             "f2tin",
+      "f2.insulation@lectrobar.com":      "f2insu",
+      "f2.assembly@lectrobar.com":        "f2assy",
+      "f2.quality@lectrobar.com":         "f2qual",
+      "f3@lectrobar.com":                 "f3pass",
+      "f3.aluminum@lectrobar.com":        "f3alum",
+      "f3.bar@lectrobar.com":             "f3bar",
+      "f3.tin@lectrobar.com":             "f3tin",
+      "f3.insulation@lectrobar.com":      "f3insu",
+      "f3.assembly@lectrobar.com":        "f3assy",
+      "f3.quality@lectrobar.com":         "f3qual",
+      "to@lectrobar.com":                 "to123",
     };
+
+    async function fbLoadPasswords() {
+      const db = fdb(); if (!db) return;
+      try {
+        const snap = await db.collection("passwords").doc("map").get();
+        if (snap.exists) { const d = snap.data(); if (d && d.data) USER_PASSWORDS = {...USER_PASSWORDS, ...d.data}; }
+        else await db.collection("passwords").doc("map").set({ data: USER_PASSWORDS });
+      } catch(e) {}
+    }
+    async function fbSavePasswords() {
+      const db = fdb(); if (!db) return;
+      try { await db.collection("passwords").doc("map").set({ data: USER_PASSWORDS }); } catch(e) {}
+    }
 
     /* ─── HOOKS ───────────────────────────────────────────────── */
     function useToast() {
@@ -402,6 +513,81 @@
       return <span className="badge" style={{background:s.bg,color:s.color}}>{s.icon} {s.label}</span>;
     }
 
+    function getStageProgress(stage, stagePercents){
+      // If stagePercents provided, sum up completed stages + current stage percent
+      if (stagePercents) {
+        const idx = MANUFACTURING_STAGES.indexOf(stage);
+        if (idx === -1) return 0;
+        let total = 0;
+        for (let i = 0; i < idx; i++) total += 100;
+        total += (Number(stagePercents[stage]) || 0);
+        return Math.round(total / MANUFACTURING_STAGES.length);
+      }
+      const index = MANUFACTURING_STAGES.indexOf(stage);
+      return index === -1 ? 0 : Math.round(((index + 1) / MANUFACTURING_STAGES.length) * 100);
+    }
+
+    function StageProgress({ stage, stagePercents, onSetPercent, canEdit }){
+      const [editing, setEditing] = React.useState(false);
+      const [val, setVal] = React.useState("");
+      const progress = getStageProgress(stage, stagePercents);
+      const color = progress < 35 ? "#e63946" : progress < 70 ? "#f4a261" : "#2a9d8f";
+
+      const submitPercent = () => {
+        const n = Math.min(100, Math.max(0, Number(val)));
+        if (!isNaN(n) && onSetPercent) onSetPercent(stage, n);
+        setEditing(false);
+      };
+
+      return (
+        <div className="progress-wrap">
+          <div style={{display:"flex",justifyContent:"space-between",marginBottom:6}}>
+            <span style={{fontSize:10,color:"var(--muted)",fontFamily:"'JetBrains Mono',monospace"}}>Stage: {stage}</span>
+            <span style={{fontSize:10,color:color,fontFamily:"'JetBrains Mono',monospace"}}>{progress}%</span>
+          </div>
+          <div className="progress-bar">
+            <div className="progress-fill" style={{width:`${progress}%`,background:color}}></div>
+          </div>
+          <div className="stage-row">
+            {MANUFACTURING_STAGES.map((s,idx)=>{
+              const stageIdx = MANUFACTURING_STAGES.indexOf(stage);
+              const pct = stagePercents?.[s];
+              const active = idx < stageIdx || (idx === stageIdx);
+              return (
+                <span key={s} className="stage-chip" style={{
+                  background: active ? color+"22" : "transparent",
+                  color: active ? color : "var(--muted)",
+                  borderColor: active ? color : "var(--border)"
+                }}>
+                  {s}{pct !== undefined && idx <= stageIdx ? ` ${pct}%` : ""}
+                </span>
+              );
+            })}
+          </div>
+          {canEdit && (
+            <div style={{marginTop:8,display:"flex",alignItems:"center",gap:8}}>
+              {editing ? (
+                <>
+                  <input type="number" min="0" max="100" className="lb-input"
+                    style={{width:80,padding:"4px 8px",fontSize:12,height:30}}
+                    value={val} onChange={e=>setVal(e.target.value)}
+                    onKeyDown={e=>e.key==="Enter"&&submitPercent()}
+                    placeholder="0-100" autoFocus />
+                  <button className="act" style={{borderColor:"#2a9d8f",color:"#2a9d8f",padding:"4px 10px",fontSize:11}} onClick={submitPercent}>✔</button>
+                  <button className="act" style={{padding:"4px 10px",fontSize:11}} onClick={()=>setEditing(false)}>✕</button>
+                </>
+              ) : (
+                <button className="act" style={{fontSize:10,padding:"4px 10px",borderColor:"#e9c46a",color:"#e9c46a"}}
+                  onClick={()=>{setVal(stagePercents?.[stage]||"");setEditing(true);}}>
+                  📊 تحديد نسبة {stage}: {stagePercents?.[stage]||0}%
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      );
+    }
+
     function Confirm({ msg, onOk, onCancel }) {
       return (
         <div className="conf-bg">
@@ -419,19 +605,33 @@
 
     /* ─── JOB MODAL ───────────────────────────────────────────── */
     function JobModal({ job, onSave, onClose, user, isDesktop }) {
-      const empty = { name:"", config:"3PH+FN+FE", qty:"", factory:"", ampere:"", series:"LSBA", date:"", exitDate:"", status:"Approved", ip:"" };
-      const [f, setF] = useState(job ? {...empty,...job} : empty);
+      const empty = { name:"", config:"3PH+FN+FE", qty:"", factory:"", ampere:"", series:"LSBA", date:"", exitDate:"", status:"Approved", ip:"", currentStage:"Aluminum", stagePercents:{} };
+      const [f, setF] = useState(job ? {...empty,...job, stagePercents: job.stagePercents||{}} : empty);
+      const [saving, setSaving] = useState(false);
       const set = (k,v) => setF(p => ({...p,[k]:v}));
       const isFactory = user.role === "factory";
-      const save = () => {
+      // Stage user: can only edit their own stage percent
+      const isStageUser = isFactory && user.stage;
+      const canEditStage = (s) => isStageUser ? user.stage === s : !isFactory;
+      const setStagePercent = (stage, pct) => setF(p => ({...p, stagePercents:{...(p.stagePercents||{}), [stage]:pct}}));
+      const save = async () => {
         if (!f.name.trim()) return;
-        onSave(job?.id ? {...f} : {...f, id:"LB-"+String(Date.now()).slice(-4)});
+        setSaving(true);
+        try {
+          const isNew = !job?.id;
+          const jobData = isNew
+            ? { ...f, id: "LB-" + String(Date.now()).slice(-6) }
+            : { ...f };
+          await onSave(jobData);
+        } finally {
+          setSaving(false);
+        }
       };
       return (
         <div className={`modal-bg ${isDesktop?"desk":""}`} onClick={e => e.target===e.currentTarget && onClose()}>
           <div className="modal">
             <div className="modal-drag" />
-            <h3>{job?.id ? "✎ EDIT JOB" : "+ NEW JOB"}</h3>
+            <h3>{job?.id ? "✎ EDIT PROJECT" : "+ NEW PROJECT"}</h3>
             {isFactory && <div className="fbanner">🏭 Factory mode — تعديل الحالة فقط</div>}
             <div className="lb-field">
               <label className="lb-label">Name</label>
@@ -447,7 +647,7 @@
                 </select>
               </div>
               <div className="lb-field">
-                <label className="lb-label">QTY (cm)</label>
+                <label className="lb-label">QTY(cm)</label>
                 <input className="lb-input" type="number" placeholder="450" disabled={isFactory}
                   value={f.qty} onChange={e => set("qty",e.target.value)} />
               </div>
@@ -488,6 +688,48 @@
                 </select>
               </div>
             </div>
+
+            <div className="lb-field">
+              <label className="lb-label">Manufacturing Stage</label>
+              {isStageUser ? (
+                <div style={{padding:"8px 12px",background:"var(--s2)",borderRadius:8,fontSize:12,color:"var(--muted)"}}>
+                  🔒 مرحلتك: <span style={{color:"#2a9d8f",fontWeight:700}}>{user.stage}</span>
+                </div>
+              ) : (
+                <select className="lb-select" style={{width:"100%"}} disabled={isFactory}
+                  value={f.currentStage || "Aluminum"} onChange={e => set("currentStage",e.target.value)}>
+                  {MANUFACTURING_STAGES.map(stage => <option key={stage} value={stage}>{stage}</option>)}
+                </select>
+              )}
+            </div>
+
+            <div className="lb-field">
+              <label className="lb-label">نسب مراحل التصنيع</label>
+              <div style={{background:"var(--s2)",borderRadius:8,padding:"10px 12px"}}>
+                {MANUFACTURING_STAGES.map(s => {
+                  const pct = f.stagePercents?.[s] || 0;
+                  const isMine = isStageUser && user.stage === s;
+                  const canEdit = isMine || (!isFactory);
+                  return (
+                    <div key={s} style={{display:"flex",alignItems:"center",gap:8,marginBottom:6}}>
+                      <span style={{width:80,fontSize:10,fontFamily:"'JetBrains Mono',monospace",
+                        color: canEdit ? "#e9c46a" : "var(--muted)",flexShrink:0}}>{s}</span>
+                      <div style={{flex:1,height:6,background:"var(--border)",borderRadius:3,overflow:"hidden"}}>
+                        <div style={{width:`${pct}%`,height:"100%",background:pct>=100?"#2a9d8f":pct>0?"#f4a261":"var(--border)",transition:"width .3s"}} />
+                      </div>
+                      {canEdit ? (
+                        <input type="number" min="0" max="100" className="lb-input"
+                          style={{width:60,padding:"2px 6px",fontSize:11,height:26,textAlign:"center"}}
+                          value={pct} onChange={e => setStagePercent(s, Math.min(100,Math.max(0,Number(e.target.value))))} />
+                      ) : (
+                        <span style={{width:40,fontSize:10,fontFamily:"'JetBrains Mono',monospace",color:"var(--muted)",textAlign:"left"}}>{pct}%</span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
             <div className="g2">
               <div className="lb-field">
                 <label className="lb-label">Date</label>
@@ -501,8 +743,8 @@
               </div>
             </div>
             <div className="modal-foot">
-              <button className="btn-ghost" onClick={onClose}>Cancel</button>
-              <button className="btn-save" onClick={save}>Save</button>
+              <button className="btn-ghost" onClick={onClose} disabled={saving}>Cancel</button>
+              <button className="btn-save" onClick={save} disabled={saving}>{saving ? "Saving..." : "Save"}</button>
             </div>
           </div>
         </div>
@@ -510,52 +752,7 @@
     }
 
     /* ─── USER MODAL ──────────────────────────────────────────── */
-    function UserModal({ onSave, onClose, isDesktop }) {
-      const [f, setF] = useState({ name:"", email:"", role:"operator", active:true, factory:null });
-      const set = (k,v) => setF(p => ({...p,[k]:v}));
-      return (
-        <div className={`modal-bg ${isDesktop?"desk":""}`} onClick={e => e.target===e.currentTarget && onClose()}>
-          <div className="modal" style={{maxWidth:420}}>
-            <div className="modal-drag" />
-            <h3>+ NEW USER</h3>
-            <div className="lb-field">
-              <label className="lb-label">Full Name *</label>
-              <input className="lb-input" placeholder="Ahmed Al-Rashid" value={f.name} onChange={e => set("name",e.target.value)} />
-            </div>
-            <div className="lb-field">
-              <label className="lb-label">Email *</label>
-              <input className="lb-input" type="email" placeholder="user@lectrobar.com" value={f.email} onChange={e => set("email",e.target.value)} />
-            </div>
-            <div className="g2">
-              <div className="lb-field">
-                <label className="lb-label">Role</label>
-                <select className="lb-select" style={{width:"100%"}} value={f.role}
-                  onChange={e => { set("role",e.target.value); if(e.target.value!=="factory") set("factory",null); }}>
-                  {Object.entries(ROLES).map(([k,v]) => <option key={k} value={k}>{v.label}</option>)}
-                </select>
-              </div>
-              <div className="lb-field">
-                <label className="lb-label">Status</label>
-                <select className="lb-select" style={{width:"100%"}} value={String(f.active)} onChange={e => set("active",e.target.value==="true")}>
-                  <option value="true">Active</option>
-                  <option value="false">Inactive</option>
-                </select>
-              </div>
-            </div>
-            {f.role==="factory" && (
-              <div className="lb-field">
-                <label className="lb-label">Factory #</label>
-                <input className="lb-input" type="number" placeholder="1" value={f.factory||""} onChange={e => set("factory",Number(e.target.value))} />
-              </div>
-            )}
-            <div className="modal-foot">
-              <button className="btn-ghost" onClick={onClose}>Cancel</button>
-              <button className="btn-save" onClick={() => { if(f.name&&f.email) onSave(f); }}>Create</button>
-            </div>
-          </div>
-        </div>
-      );
-    }
+    /* UserModal defined below with password support */
 
     /* ─── VIEW TOGGLE BUTTON ──────────────────────────────────── */
     function ViewToggleBtn({ isDesktop, onToggle }) {
@@ -609,7 +806,7 @@
       );
     }
 
-    function MobileJobsPage({ user, toast, jobs, setJobs }) {
+    function MobileJobsPage({ user, toast, jobs, saveJob: fbSave, deleteJob: fbDelete }) {
       const perms = PERMISSIONS[user.role] || {};
       const [filter, setFilter] = useState("All");
       const [search, setSearch] = useState("");
@@ -633,25 +830,27 @@
             j.series?.toLowerCase().includes(q) || String(j.factory).includes(q);
         });
 
-      const saveJob = (data) => {
-        setJobs(prev => data.id && prev.find(j => j.id===data.id)
-          ? prev.map(j => j.id===data.id ? data : j)
-          : [data,...prev]);
-        setModal(null);
-        toast(modal?.id ? "Job updated ✔" : "Job added ✔");
+      const saveJob = async (data) => {
+        try {
+          await fbSave(data);
+          setModal(null);
+          toast(modal?.id ? "Job updated ✔" : "Job added ✔");
+        } catch(e) { toast("Error saving job","error"); }
       };
 
-      const doDelete = () => {
-        setJobs(prev => prev.filter(j => j.id!==confirm.id));
-        setConfirm(null);
-        toast("Deleted","info");
+      const doDelete = async () => {
+        try {
+          await fbDelete(confirm.id);
+          setConfirm(null);
+          toast("Deleted","info");
+        } catch(e) { toast("Error deleting","error"); }
       };
 
       return (
         <div>
           <div className="mob-pg-title">
             <span>⚡ FOLLOW-UP</span>
-            {perms.canAddJob && <button className="add-btn" onClick={() => setModal({})}>+ New Job</button>}
+            {perms.canAddJob && <button className="add-btn" onClick={() => setModal({})}>+ New Project</button>}
           </div>
           {perms.factoryOnly && <div className="fbanner">🏭 Factory {user.factory}</div>}
           <div className="mob-stats">
@@ -660,7 +859,7 @@
             <div className="stat"><div className="stat-lbl">⚙ U.M</div><div className="stat-val" style={{color:"#2a9d8f"}}>{counts["Under Manufacturing"]}</div></div>
             <div className="stat"><div className="stat-lbl">✔ DONE</div><div className="stat-val" style={{color:"#5a9fd4"}}>{counts.Finished}</div></div>
             <div className="stat"><div className="stat-lbl">✕ EXIT</div><div className="stat-val" style={{color:"#9b72cf"}}>{counts.Exit}</div></div>
-            <div className="stat"><div className="stat-lbl">QTY cm</div><div className="stat-val" style={{color:"var(--text)",fontSize:14}}>{totalQty.toLocaleString()}</div></div>
+            <div className="stat"><div className="stat-lbl">QTY(cm)</div><div className="stat-val" style={{color:"var(--text)",fontSize:14}}>{totalQty.toLocaleString()}</div></div>
           </div>
           <div className="toolbar">
             <select className="lb-select" value={filter} onChange={e => setFilter(e.target.value)}>
@@ -688,6 +887,9 @@
                 <div className="jcard-item"><div className="jcard-item-lbl">SERIES</div><div className="jcard-item-val">{job.series||"—"}</div></div>
                 <div className="jcard-item"><div className="jcard-item-lbl">DATE</div><div className="jcard-item-val" style={{fontSize:10}}>{job.date||"—"}</div></div>
               </div>
+
+              <StageProgress stage={job.currentStage || "Aluminum"} stagePercents={job.stagePercents} />
+
               {(perms.canEditJob||perms.canDeleteJob) && (
                 <div className="jcard-acts">
                   {perms.canEditJob && <button className="act" onClick={() => setModal(job)}>✎ Edit</button>}
@@ -702,11 +904,121 @@
       );
     }
 
-    function MobileUsersPage({ currentUser, toast, users, setUsers }) {
+    /* ─── USER MODAL (Add new user with password) ────────────────── */
+    function UserModal({ onSave, onClose, isDesktop }) {
+      const [f, setF] = useState({ name:"", email:"", role:"factory", factory:"", stage:"", active:true, password:"" });
+      const [showPass, setShowPass] = useState(false);
+      const set = (k,v) => setF(p => ({...p,[k]:v}));
+      const save = () => {
+        if (!f.name.trim() || !f.email.trim() || !f.password.trim()) return;
+        onSave({ ...f, factory: f.factory ? Number(f.factory) : null, stage: f.stage || null });
+      };
+      return (
+        <div className={`modal-bg ${isDesktop?"desk":""}`} onClick={e => e.target===e.currentTarget && onClose()}>
+          <div className="modal">
+            <div className="modal-drag" />
+            <h3>+ NEW USER</h3>
+            <div className="lb-field">
+              <label className="lb-label">Full Name</label>
+              <input className="lb-input" placeholder="Ahmed Ali" value={f.name} onChange={e => set("name",e.target.value)} />
+            </div>
+            <div className="lb-field">
+              <label className="lb-label">Email</label>
+              <input className="lb-input" type="email" placeholder="user@lectrobar.com" value={f.email} onChange={e => set("email",e.target.value)} />
+            </div>
+            <div className="lb-field">
+              <label className="lb-label">Password *</label>
+              <div style={{position:"relative"}}>
+                <input className="lb-input" type={showPass?"text":"password"} placeholder="أدخل الباسورد"
+                  style={{paddingLeft:38}} value={f.password} onChange={e => set("password",e.target.value)} />
+                <button type="button" onClick={() => setShowPass(v=>!v)} style={{
+                  position:"absolute",left:10,top:"50%",transform:"translateY(-50%)",
+                  background:"none",border:"none",cursor:"pointer",fontSize:16,color:"var(--muted)"
+                }}>{showPass?"🙈":"👁"}</button>
+              </div>
+            </div>
+            <div className="g2">
+              <div className="lb-field">
+                <label className="lb-label">Role</label>
+                <select className="lb-select" style={{width:"100%"}} value={f.role} onChange={e => set("role",e.target.value)}>
+                  {Object.entries(ROLES).map(([k,v]) => <option key={k} value={k}>{v.label}</option>)}
+                </select>
+              </div>
+              <div className="lb-field">
+                <label className="lb-label">Factory #</label>
+                <input className="lb-input" type="number" placeholder="1" value={f.factory} onChange={e => set("factory",e.target.value)} />
+              </div>
+            </div>
+            {f.role === "factory" && (
+              <div className="lb-field">
+                <label className="lb-label">Stage (اختياري — اتركه فارغ لمسؤول المصنع)</label>
+                <select className="lb-select" style={{width:"100%"}} value={f.stage} onChange={e => set("stage",e.target.value)}>
+                  <option value="">— مسؤول المصنع الكلي —</option>
+                  {MANUFACTURING_STAGES.map(s => <option key={s} value={s}>{s}</option>)}
+                </select>
+              </div>
+            )}
+            <div style={{display:"flex",gap:8,marginTop:12}}>
+              <button className="btn-ghost" style={{flex:1}} onClick={onClose}>إلغاء</button>
+              <button className="btn-save" style={{flex:2}} onClick={save}>+ إضافة يوزر</button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    /* ─── CHANGE PASSWORD MODAL ───────────────────────────────────── */
+    function ChangePassModal({ targetUser, onSave, onClose, isDesktop }) {
+      const [pass, setPass]   = useState("");
+      const [show, setShow]   = useState(false);
+      const save = () => { if (!pass.trim()) return; onSave(targetUser.email, pass); };
+      return (
+        <div className={`modal-bg ${isDesktop?"desk":""}`} onClick={e => e.target===e.currentTarget && onClose()}>
+          <div className="modal">
+            <div className="modal-drag" />
+            <h3>🔑 تغيير الباسورد</h3>
+            <div style={{marginBottom:14,padding:"8px 12px",background:"var(--s2)",borderRadius:8,fontSize:12,color:"var(--muted)"}}>
+              👤 {targetUser.name}<br/>
+              <span style={{fontSize:10}}>{targetUser.email}</span>
+            </div>
+            <div className="lb-field">
+              <label className="lb-label">الباسورد الجديد</label>
+              <div style={{position:"relative"}}>
+                <input className="lb-input" type={show?"text":"password"} placeholder="••••••••"
+                  style={{paddingLeft:38}} value={pass} onChange={e => setPass(e.target.value)}
+                  onKeyDown={e => e.key==="Enter" && save()} />
+                <button type="button" onClick={() => setShow(v=>!v)} style={{
+                  position:"absolute",left:10,top:"50%",transform:"translateY(-50%)",
+                  background:"none",border:"none",cursor:"pointer",fontSize:16,color:"var(--muted)"
+                }}>{show?"🙈":"👁"}</button>
+              </div>
+            </div>
+            <div style={{display:"flex",gap:8,marginTop:12}}>
+              <button className="btn-ghost" style={{flex:1}} onClick={onClose}>إلغاء</button>
+              <button className="btn-save" style={{flex:2}} onClick={save}>💾 حفظ</button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function MobileUsersPage({ currentUser, toast, users, setUsers, onChangePass }) {
       const perms = PERMISSIONS[currentUser.role] || {};
+      const canChangePass = ["admin","technical_office"].includes(currentUser.role);
       const [modal, setModal] = useState(false);
+      const [passModal, setPassModal] = useState(null);
       const [confirm, setConfirm] = useState(null);
-      const addUser  = (f) => { setUsers(p => [...p,{uid:"u"+Date.now(),...f}]); setModal(false); toast("User created ✔"); };
+      const addUser  = async (f) => {
+        try {
+          const newU = {uid:"u"+Date.now(), name:f.name, email:f.email, role:f.role, factory:f.factory||null, stage:f.stage||null, active:true};
+          USER_PASSWORDS[f.email] = f.password;
+          await fbSaveUser(newU);
+          await fbSavePasswords();
+          setUsers(p => [...p, newU]);
+          setModal(false);
+          toast("User created ✔");
+        } catch(e) { toast("خطأ في الحفظ — تم الحفظ محلياً","info"); }
+      };
       const toggle   = (uid) => { setUsers(p => p.map(u => u.uid===uid ? {...u,active:!u.active} : u)); toast("Updated","info"); };
       const chRole   = (uid,role) => { setUsers(p => p.map(u => u.uid===uid ? {...u,role} : u)); toast("Role changed","info"); };
       const doDelete = () => { setUsers(p => p.filter(u => u.uid!==confirm.uid)); setConfirm(null); toast("Deleted","info"); };
@@ -725,6 +1037,7 @@
                   <div className="ucard-email">
                     {u.email}
                     {u.role==="factory"&&u.factory&&<span style={{color:"#9b72cf",marginRight:6}}> · F{u.factory}</span>}
+                    {u.stage&&<span style={{color:"#2a9d8f",marginRight:4}}> · {u.stage}</span>}
                   </div>
                 </div>
               </div>
@@ -739,6 +1052,9 @@
                     {ROLES[u.role]?.label||u.role}
                   </span>
                 )}
+                {canChangePass && u.uid !== currentUser.uid && (
+                  <button className="act" style={{borderColor:"#e9c46a",color:"#e9c46a"}} onClick={() => setPassModal(u)}>🔑</button>
+                )}
                 {perms.canManageUsers && (
                   <button className="act" style={u.active?{borderColor:"#2a9d8f",color:"#2a9d8f"}:{}} onClick={() => toggle(u.uid)}>
                     {u.active?"✔ Active":"✕ Off"}
@@ -751,12 +1067,13 @@
             </div>
           ))}
           {modal && <UserModal onSave={addUser} onClose={() => setModal(false)} isDesktop={false} />}
+          {passModal && <ChangePassModal targetUser={passModal} onSave={async (email,pass) => { await onChangePass(email,pass); setPassModal(null); toast("✔ تم تغيير الباسورد"); }} onClose={() => setPassModal(null)} isDesktop={false} />}
           {confirm && <Confirm msg={`حذف "${confirm.name}"؟`} onOk={doDelete} onCancel={() => setConfirm(null)} />}
         </div>
       );
     }
 
-    function MobileLayout({ user, onLogout, onToggleView, jobs, setJobs, users, setUsers, toast }) {
+    function MobileLayout({ user, onLogout, onToggleView, jobs, setJobs, users, setUsers, toast, notifRef, saveJob, deleteJob, saveUser, updateUser, deleteUser, onChangePass }) {
       const [page, setPage]     = useState("jobs");
       const [drawer, setDrawer] = useState(false);
       const rc = ROLES[user.role]?.color || "#888";
@@ -766,14 +1083,15 @@
           <div className="tb">
             <span className="tb-logo">LECTRO BAR</span>
             <div className="tb-right">
+              <NotificationBell user={user} onNewNotif={notifRef} />
               <ViewToggleBtn isDesktop={false} onToggle={onToggleView} />
               <Av name={user.name} color={rc} size={30} />
               <button className="tb-menu" onClick={() => setDrawer(true)}>☰</button>
             </div>
           </div>
           <div className="mob-main">
-            {page==="jobs"  && <MobileJobsPage  user={user} toast={toast} jobs={jobs} setJobs={setJobs} />}
-            {page==="users" && <MobileUsersPage currentUser={user} toast={toast} users={users} setUsers={setUsers} />}
+            {page==="jobs"  && <MobileJobsPage  user={user} toast={toast} jobs={jobs} saveJob={saveJob} deleteJob={deleteJob} />}
+            {page==="users" && <MobileUsersPage currentUser={user} toast={toast} users={users} setUsers={setUsers} onChangePass={onChangePass} />}
           </div>
           <MobileDrawer open={drawer} onClose={() => setDrawer(false)} page={page} setPage={setPage} user={user} onLogout={onLogout} />
         </div>
@@ -818,7 +1136,7 @@
       );
     }
 
-    function DesktopJobsPage({ user, toast, jobs, setJobs }) {
+    function DesktopJobsPage({ user, toast, jobs, saveJob: fbSave, deleteJob: fbDelete }) {
       const perms = PERMISSIONS[user.role] || {};
       const [filter, setFilter] = useState("All");
       const [search, setSearch] = useState("");
@@ -842,25 +1160,27 @@
             j.series?.toLowerCase().includes(q) || String(j.factory).includes(q);
         });
 
-      const saveJob = (data) => {
-        setJobs(prev => data.id && prev.find(j => j.id===data.id)
-          ? prev.map(j => j.id===data.id ? data : j)
-          : [data,...prev]);
-        setModal(null);
-        toast(modal?.id ? "Job updated ✔" : "Job added ✔");
+      const saveJob = async (data) => {
+        try {
+          await fbSave(data);
+          setModal(null);
+          toast(modal?.id ? "Job updated ✔" : "Job added ✔");
+        } catch(e) { toast("Error saving job","error"); }
       };
 
-      const doDelete = () => {
-        setJobs(prev => prev.filter(j => j.id!==confirm.id));
-        setConfirm(null);
-        toast("Deleted","info");
+      const doDelete = async () => {
+        try {
+          await fbDelete(confirm.id);
+          setConfirm(null);
+          toast("Deleted","info");
+        } catch(e) { toast("Error deleting","error"); }
       };
 
       return (
         <div>
           <div className="desk-pg-title">
             <span>⚡ FOLLOW-UP</span>
-            {perms.canAddJob && <button className="add-btn" onClick={() => setModal({})}>+ New Job</button>}
+            {perms.canAddJob && <button className="add-btn" onClick={() => setModal({})}>+ New Project</button>}
           </div>
           {perms.factoryOnly && <div className="fbanner">🏭 Factory {user.factory}</div>}
 
@@ -871,7 +1191,7 @@
             <div className="desk-stat"><div className="desk-stat-lbl">⚙ MANUF.</div><div className="desk-stat-val" style={{color:"#2a9d8f"}}>{counts["Under Manufacturing"]}</div></div>
             <div className="desk-stat"><div className="desk-stat-lbl">✔ FINISHED</div><div className="desk-stat-val" style={{color:"#5a9fd4"}}>{counts.Finished}</div></div>
             <div className="desk-stat"><div className="desk-stat-lbl">✕ EXIT</div><div className="desk-stat-val" style={{color:"#9b72cf"}}>{counts.Exit}</div></div>
-            <div className="desk-stat"><div className="desk-stat-lbl">TOTAL QTY cm</div><div className="desk-stat-val" style={{color:"var(--text)",fontSize:18}}>{totalQty.toLocaleString()}</div></div>
+            <div className="desk-stat"><div className="desk-stat-lbl">TOTAL QTY(cm)</div><div className="desk-stat-val" style={{color:"var(--text)",fontSize:18}}>{totalQty.toLocaleString()}</div></div>
           </div>
 
           {/* Toolbar */}
@@ -898,8 +1218,9 @@
                     <th>ID</th>
                     <th>Name</th>
                     <th>Status</th>
+                    <th>Progress</th>
                     <th>Config</th>
-                    <th>QTY</th>
+                    <th>QTY(cm)</th>
                     <th>Factory</th>
                     <th>Amper</th>
                     <th>Series</th>
@@ -914,6 +1235,7 @@
                       <td className="tbl-id">{job.id}</td>
                       <td className="tbl-name">{job.name}</td>
                       <td><SBadge status={job.status} /></td>
+                      <td style={{minWidth:220}}><StageProgress stage={job.currentStage || "Aluminum"} stagePercents={job.stagePercents} /></td>
                       <td style={{fontSize:11}}>{job.config||"—"}</td>
                       <td>{job.qty||"—"}</td>
                       <td>{job.factory||"—"}</td>
@@ -942,11 +1264,23 @@
       );
     }
 
-    function DesktopUsersPage({ currentUser, toast, users, setUsers }) {
+    function DesktopUsersPage({ currentUser, toast, users, setUsers, onChangePass }) {
       const perms = PERMISSIONS[currentUser.role] || {};
-      const [modal, setModal]   = useState(false);
+      const canChangePass = ["admin","technical_office"].includes(currentUser.role);
+      const [modal, setModal]     = useState(false);
+      const [passModal, setPassModal] = useState(null);
       const [confirm, setConfirm] = useState(null);
-      const addUser  = (f) => { setUsers(p => [...p,{uid:"u"+Date.now(),...f}]); setModal(false); toast("User created ✔"); };
+      const addUser  = async (f) => {
+        try {
+          const newU = {uid:"u"+Date.now(), name:f.name, email:f.email, role:f.role, factory:f.factory||null, stage:f.stage||null, active:true};
+          USER_PASSWORDS[f.email] = f.password;
+          await fbSaveUser(newU);
+          await fbSavePasswords();
+          setUsers(p => [...p, newU]);
+          setModal(false);
+          toast("User created ✔");
+        } catch(e) { toast("خطأ في الحفظ — تم الحفظ محلياً","info"); }
+      };
       const toggle   = (uid) => { setUsers(p => p.map(u => u.uid===uid ? {...u,active:!u.active} : u)); toast("Updated","info"); };
       const chRole   = (uid,role) => { setUsers(p => p.map(u => u.uid===uid ? {...u,role} : u)); toast("Role changed","info"); };
       const doDelete = () => { setUsers(p => p.filter(u => u.uid!==confirm.uid)); setConfirm(null); toast("Deleted","info"); };
@@ -963,6 +1297,7 @@
                   <th>User</th>
                   <th>Email</th>
                   <th>Role</th>
+                  <th>Stage</th>
                   <th>Status</th>
                   {perms.canManageUsers && <th>Actions</th>}
                 </tr>
@@ -992,6 +1327,11 @@
                         </span>
                       )}
                     </td>
+                    <td style={{fontSize:11}}>
+                      {u.stage
+                        ? <span className="badge" style={{background:"rgba(42,157,143,.15)",color:"#2a9d8f"}}>{u.stage}</span>
+                        : <span style={{color:"var(--muted)"}}>—</span>}
+                    </td>
                     <td>
                       <span className="badge" style={u.active
                         ? {background:"rgba(42,157,143,.15)",color:"#2a9d8f"}
@@ -1005,6 +1345,9 @@
                           <button className="tbl-act" style={u.active?{borderColor:"#2a9d8f",color:"#2a9d8f"}:{}} onClick={() => toggle(u.uid)}>
                             {u.active?"Deactivate":"Activate"}
                           </button>
+                          {canChangePass && u.uid !== currentUser.uid && (
+                            <button className="tbl-act" style={{borderColor:"#e9c46a",color:"#e9c46a"}} onClick={() => setPassModal(u)}>🔑 Pass</button>
+                          )}
                           {perms.canDeleteUser && u.uid!==currentUser.uid && (
                             <button className="tbl-act del" onClick={() => setConfirm({uid:u.uid,name:u.name})}>🗑</button>
                           )}
@@ -1017,12 +1360,13 @@
             </table>
           </div>
           {modal && <UserModal onSave={addUser} onClose={() => setModal(false)} isDesktop={true} />}
+          {passModal && <ChangePassModal targetUser={passModal} onSave={async (email,pass) => { await onChangePass(email,pass); setPassModal(null); toast("✔ تم تغيير الباسورد"); }} onClose={() => setPassModal(null)} isDesktop={true} />}
           {confirm && <Confirm msg={`حذف "${confirm.name}"؟`} onOk={doDelete} onCancel={() => setConfirm(null)} />}
         </div>
       );
     }
 
-    function DesktopLayout({ user, onLogout, onToggleView, jobs, setJobs, users, setUsers, toast }) {
+    function DesktopLayout({ user, onLogout, onToggleView, jobs, setJobs, users, setUsers, toast, notifRef, saveJob, deleteJob, saveUser, updateUser, deleteUser, onChangePass }) {
       const [page, setPage] = useState("jobs");
       const rc = ROLES[user.role]?.color || "#888";
 
@@ -1032,14 +1376,15 @@
           <div className="tb">
             <span className="tb-logo">LECTRO BAR</span>
             <div className="tb-right">
+              <NotificationBell user={user} onNewNotif={notifRef} />
               <ViewToggleBtn isDesktop={true} onToggle={onToggleView} />
               <Av name={user.name} color={rc} size={30} />
             </div>
           </div>
           <div className="desk-body">
             <div className="desk-main">
-              {page==="jobs"  && <DesktopJobsPage  user={user} toast={toast} jobs={jobs} setJobs={setJobs} />}
-              {page==="users" && <DesktopUsersPage currentUser={user} toast={toast} users={users} setUsers={setUsers} />}
+              {page==="jobs"  && <DesktopJobsPage  user={user} toast={toast} jobs={jobs} saveJob={saveJob} deleteJob={deleteJob} />}
+              {page==="users" && <DesktopUsersPage currentUser={user} toast={toast} users={users} setUsers={setUsers} onChangePass={onChangePass} />}
             </div>
             <DesktopSidebar user={user} page={page} setPage={setPage} onLogout={onLogout} />
           </div>
@@ -1053,6 +1398,9 @@
       const [pass,  setPass]  = useState("");
       const [err,   setErr]   = useState("");
       const [sel,   setSel]   = useState(null);
+      const [showPass, setShowPass] = useState(false);
+      const [eyeTooltip, setEyeTooltip] = useState(null);
+
       const login = () => {
         const u = (users||MOCK_USERS).find(x => x.email===email);
         if (!u) return setErr("Invalid credentials");
@@ -1061,6 +1409,19 @@
         onLogin(u);
       };
       const pickHint = (h) => { setEmail(h.email); setPass(""); setSel(h.email); setErr(""); };
+
+      const handleEyeClick = () => {
+        setShowPass(v => !v);
+        // find the user matching current email to show name
+        if (email) {
+          const u = (users||MOCK_USERS).find(x => x.email===email);
+          if (u) {
+            setEyeTooltip(u.name);
+            setTimeout(() => setEyeTooltip(null), 2500);
+          }
+        }
+      };
+
       return (
         <div className="login-wrap">
           <div className="login-card">
@@ -1075,9 +1436,32 @@
             </div>
             <div className="lb-field">
               <label className="lb-label">Password</label>
-              <input className="lb-input" type="password" placeholder="••••••••"
-                value={pass} onChange={e => { setPass(e.target.value); setErr(""); }}
-                onKeyDown={e => e.key==="Enter" && login()} />
+              <div style={{position:"relative"}}>
+                <input className="lb-input" type={showPass?"text":"password"} placeholder="••••••••"
+                  style={{paddingLeft:42}}
+                  value={pass} onChange={e => { setPass(e.target.value); setErr(""); }}
+                  onKeyDown={e => e.key==="Enter" && login()} />
+                <button onClick={handleEyeClick} type="button" style={{
+                  position:"absolute",left:10,top:"50%",transform:"translateY(-50%)",
+                  background:"none",border:"none",cursor:"pointer",fontSize:17,
+                  color:"var(--muted)",padding:"2px 4px",lineHeight:1,
+                  transition:"color .15s"
+                }} title={showPass?"إخفاء الباسورد":"إظهار الباسورد"}>
+                  {showPass ? "🙈" : "👁"}
+                </button>
+                {eyeTooltip && (
+                  <div style={{
+                    position:"absolute",left:0,top:"calc(100% + 6px)",
+                    background:"var(--s2)",border:"1px solid var(--border)",
+                    borderRadius:7,padding:"6px 12px",fontSize:12,
+                    color:"var(--accent)",fontFamily:"'JetBrains Mono',monospace",
+                    whiteSpace:"nowrap",zIndex:10,boxShadow:"0 4px 12px rgba(0,0,0,.4)",
+                    animation:"toastUp .2s ease"
+                  }}>
+                    👤 {eyeTooltip}
+                  </div>
+                )}
+              </div>
             </div>
             <button className="login-btn" onClick={login}>Login</button>
             <div className="hints-sep">
@@ -1095,90 +1479,218 @@
       );
     }
 
-    /* ─── FIREBASE HELPERS ───────────────────────────────────── */
+    /* ─── APP ROOT ────────────────────────────────────────────── */
+    /* ── FIREBASE HELPERS ─────────────────────────────────────── */
     function fdb() { return window.__fbdb; }
-
-    async function fbSeed() {
-      const db = fdb();
-      const usersSnap = await db.collection("users").get();
-      if (usersSnap.empty) {
-        for (const u of MOCK_USERS) await db.collection("users").doc(u.uid).set(u);
-      }
-      const jobsSnap = await db.collection("jobs").get();
-      if (jobsSnap.empty) {
-        for (const j of MOCK_JOBS) await db.collection("jobs").doc(j.id).set(j);
-      }
+    async function fbInit() {
+      const db = fdb(); if (!db) throw new Error("no db");
+      const [us, js] = await Promise.all([db.collection("users").get(), db.collection("jobs").get()]);
+      if (us.empty) for (const u of MOCK_USERS) await db.collection("users").doc(u.uid).set(u);
+      if (js.empty) for (const j of MOCK_JOBS)  await db.collection("jobs").doc(j.id).set(j);
+      return { users: us.empty?MOCK_USERS:us.docs.map(d=>d.data()), jobs: js.empty?MOCK_JOBS:js.docs.map(d=>d.data()) };
     }
-
-    async function fbGetAll() {
-      const db = fdb();
-      const [js, us] = await Promise.all([
-        db.collection("jobs").get(),
-        db.collection("users").get()
-      ]);
-      return {
-        jobs:  js.docs.map(d => d.data()),
-        users: us.docs.map(d => d.data())
-      };
-    }
-
     async function fbSaveJob(job) {
+      if (!job.id) job = {...job, id: "LB-"+String(Date.now()).slice(-6)};
       const db = fdb();
-      if (!job.id) job.id = "LB-" + String(Date.now()).slice(-6);
+      if (!db) throw new Error("Database not connected");
       await db.collection("jobs").doc(job.id).set(job);
       return job;
     }
+    async function fbDeleteJob(id)       { await fdb().collection("jobs").doc(id).delete(); }
+    async function fbSaveUser(u)         { if(!u.uid)u.uid="u"+Date.now(); await fdb().collection("users").doc(u.uid).set(u); return u; }
+    async function fbUpdateUser(uid, ch) { await fdb().collection("users").doc(uid).update(ch); }
+    async function fbDeleteUser(uid)     { await fdb().collection("users").doc(uid).delete(); }
 
-    async function fbDeleteJob(id) {
-      await fdb().collection("jobs").doc(id).delete();
+    /* ── NOTIFICATIONS FIREBASE ───────────────────────────────── */
+    async function fbAddNotif(notif) {
+      const db = fdb(); if (!db) return;
+      const id = "n" + Date.now();
+      await db.collection("notifications").doc(id).set({ ...notif, id, createdAt: Date.now(), read: false });
+    }
+    async function fbGetNotifs() {
+      const db = fdb(); if (!db) return [];
+      try {
+        const snap = await db.collection("notifications").orderBy("createdAt","desc").limit(50).get();
+        return snap.docs.map(d => d.data());
+      } catch(e) { return []; }
+    }
+    async function fbMarkAllRead() {
+      const db = fdb(); if (!db) return;
+      try {
+        const snap = await db.collection("notifications").where("read","==",false).get();
+        const batch = db.batch();
+        snap.docs.forEach(d => batch.update(d.ref, { read: true }));
+        await batch.commit();
+      } catch(e) {}
+    }
+    async function fbClearNotifs() {
+      const db = fdb(); if (!db) return;
+      try {
+        const snap = await db.collection("notifications").get();
+        const batch = db.batch();
+        snap.docs.forEach(d => batch.delete(d.ref));
+        await batch.commit();
+      } catch(e) {}
+    }
+    function sendBrowserNotif(title, body) {
+      if (!("Notification" in window)) return;
+      if (Notification.permission === "granted") {
+        new Notification(title, { body, icon: "https://lectrobar1.netlify.app/favicon.ico" });
+      }
+    }
+    async function requestNotifPermission() {
+      if ("Notification" in window && Notification.permission === "default") {
+        await Notification.requestPermission();
+      }
     }
 
-    async function fbSaveUser(user) {
-      const db = fdb();
-      if (!user.uid) user.uid = "u" + Date.now();
-      await db.collection("users").doc(user.uid).set(user);
-      return user;
+    /* ── NOTIFICATION BELL ────────────────────────────────────── */
+    function NotificationBell({ user, onNewNotif }) {
+      const isPrivileged = ["admin","manager"].includes(user?.role);
+      const [notifs, setNotifs] = useState([]);
+      const [open, setOpen] = useState(false);
+      const unread = notifs.filter(n => !n.read).length;
+
+      useEffect(() => {
+        requestNotifPermission();
+        if (!isPrivileged) return;
+        // initial load
+        fbGetNotifs().then(setNotifs);
+        // poll every 8 seconds for new notifications
+        const interval = setInterval(() => {
+          fbGetNotifs().then(fresh => {
+            setNotifs(prev => {
+              const prevIds = new Set(prev.map(n => n.id));
+              const newOnes = fresh.filter(n => !prevIds.has(n.id));
+              if (newOnes.length > 0) {
+                newOnes.forEach(n => sendBrowserNotif("🔔 Lectro Bar", n.msg));
+              }
+              return fresh;
+            });
+          });
+        }, 8000);
+        return () => clearInterval(interval);
+      }, [isPrivileged]);
+
+      // expose setter so App can push new notifs
+      useEffect(() => { if (onNewNotif) onNewNotif.current = (n) => setNotifs(p => [n,...p]); }, []);
+
+      if (!isPrivileged) return null;
+
+      const handleOpen = async () => {
+        setOpen(o => !o);
+        if (!open && unread > 0) {
+          await fbMarkAllRead();
+          setNotifs(p => p.map(n => ({ ...n, read: true })));
+        }
+      };
+      const handleClear = async () => {
+        await fbClearNotifs();
+        setNotifs([]);
+        setOpen(false);
+      };
+      const fmt = (ts) => {
+        const diff = Date.now() - ts;
+        if (diff < 60000) return "الآن";
+        if (diff < 3600000) return Math.floor(diff/60000) + " دقيقة";
+        if (diff < 86400000) return Math.floor(diff/3600000) + " ساعة";
+        return Math.floor(diff/86400000) + " يوم";
+      };
+      const iconFor = (type) => ({ add:"✅", edit:"✏️", delete:"🗑️", status:"🔄" }[type] || "🔔");
+
+      return (
+        <>
+          <button className="notif-btn" onClick={handleOpen}>
+            🔔
+            {unread > 0 && <span className="notif-badge">{unread > 99 ? "99+" : unread}</span>}
+          </button>
+          {open && (
+            <div className="notif-panel">
+              <div className="notif-head">
+                <span className="notif-title">🔔 الإشعارات</span>
+                <div className="notif-actions">
+                  {notifs.length > 0 && <button className="notif-clear" onClick={handleClear}>مسح الكل</button>}
+                  <button className="notif-close" onClick={() => setOpen(false)}>✕</button>
+                </div>
+              </div>
+              <div className="notif-list">
+                {notifs.length === 0
+                  ? <div className="notif-empty">لا توجد إشعارات</div>
+                  : notifs.map(n => (
+                    <div key={n.id} className={`notif-item ${n.read?"":"unread"}`}>
+                      <span className="notif-icon">{iconFor(n.type)}</span>
+                      <div className="notif-body">
+                        <div className="notif-msg">{n.msg}</div>
+                        <div className="notif-time">{fmt(n.createdAt)}</div>
+                      </div>
+                      {!n.read && <div className="notif-dot"></div>}
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+          )}
+        </>
+      );
     }
 
-    async function fbUpdateUser(uid, changes) {
-      await fdb().collection("users").doc(uid).update(changes);
-    }
-
-    async function fbDeleteUser(uid) {
-      await fdb().collection("users").doc(uid).delete();
-    }
-
-    /* ─── APP ROOT ────────────────────────────────────────────── */
     function App() {
-      const [user,    setUser]    = useState(null);
+      const [user,    setUser]    = useState(() => {
+        try { const s = localStorage.getItem("lb_user"); return s ? JSON.parse(s) : null; } catch(e) { return null; }
+      });
       const [jobs,    setJobs]    = useState([]);
       const [users,   setUsers]   = useState([]);
       const [loading, setLoading] = useState(true);
-      const [toast,   showToast]  = useToast();
+      const [toast, showToast]    = useToast();
       const [isDesktop, setIsDesktop] = useState(() => window.innerWidth >= 768);
       const [manualOverride, setManualOverride] = useState(false);
+      const notifRef = React.useRef(null);
+
+      const pushNotif = async (type, msg) => {
+        const n = { type, msg, id: "n"+Date.now(), createdAt: Date.now(), read: false };
+        await fbAddNotif(n).catch(() => {});
+        if (notifRef.current) notifRef.current(n);
+      };
 
       useEffect(() => {
-        async function load() {
-          try {
-            await Promise.race([
-              fbSeed(),
-              new Promise((_,r) => setTimeout(() => r(new Error("timeout")), 6000))
-            ]);
-            const data = await Promise.race([
-              fbGetAll(),
-              new Promise((_,r) => setTimeout(() => r(new Error("timeout")), 6000))
-            ]);
-            setJobs(data.jobs);
-            setUsers(data.users);
-          } catch(e) {
-            console.warn("Firebase fallback:", e.message);
-            setJobs(MOCK_JOBS);
-            setUsers(MOCK_USERS);
-          }
-          setLoading(false);
+        const db = fdb();
+        if (!db) {
+          // fallback offline
+          setJobs(MOCK_JOBS); setUsers(MOCK_USERS); setLoading(false);
+          return;
         }
-        load();
+        let jobsReady = false, usersReady = false;
+        const check = () => { if (jobsReady && usersReady) setLoading(false); };
+        // Load passwords from Firebase
+        fbLoadPasswords();;
+
+        // Real-time listener for jobs
+        const unsubJobs = db.collection("jobs").onSnapshot(snap => {
+          if (snap.empty && !jobsReady) {
+            // seed initial data
+            MOCK_JOBS.forEach(j => db.collection("jobs").doc(j.id).set(j));
+            setJobs(MOCK_JOBS);
+          } else {
+            setJobs(snap.docs.map(d => d.data()));
+          }
+          jobsReady = true; check();
+        }, e => { console.warn("jobs listener:", e.message); setJobs(MOCK_JOBS); jobsReady = true; check(); });
+
+        // Real-time listener for users
+        const unsubUsers = db.collection("users").onSnapshot(snap => {
+          if (snap.empty && !usersReady) {
+            MOCK_USERS.forEach(u => db.collection("users").doc(u.uid).set(u));
+            setUsers(MOCK_USERS);
+          } else {
+            setUsers(snap.docs.map(d => d.data()));
+          }
+          usersReady = true; check();
+        }, e => { console.warn("users listener:", e.message); setUsers(MOCK_USERS); usersReady = true; check(); });
+
+        // fallback timeout
+        const fallback = setTimeout(() => { setLoading(false); }, 8000);
+
+        return () => { unsubJobs(); unsubUsers(); clearTimeout(fallback); };
       }, []);
 
       useEffect(() => {
@@ -1189,65 +1701,52 @@
       }, [manualOverride]);
 
       const handleToggleView = () => { setIsDesktop(d => !d); setManualOverride(true); };
-      const logout = () => setUser(null);
+      const logout = () => { localStorage.removeItem("lb_user"); setUser(null); };
+      const handleLogin = (u) => { try { localStorage.setItem("lb_user", JSON.stringify(u)); } catch(e) {} setUser(u); };
 
-      // Wrap setJobs/setUsers to also save to Firebase
       const saveJob = async (job) => {
-        const saved = await fbSaveJob(job);
-        setJobs(prev => {
-          const idx = prev.findIndex(j => j.id === saved.id);
-          return idx >= 0 ? prev.map(j => j.id===saved.id ? saved : j) : [...prev, saved];
-        });
-        return saved;
+        const isNew = !job.id || !jobs.find(j => j.id === job.id);
+        const old = jobs.find(j => j.id === job.id);
+        const s = await fbSaveJob(job);
+        // setJobs not needed — real-time listener updates automatically
+        if (isNew) {
+          await pushNotif("add", `➕ تمت إضافة عملية جديدة: "${s.name}" (${s.id}) بواسطة ${user.name}`);
+        } else if (old && old.status !== s.status) {
+          await pushNotif("status", `🔄 تغيّر حالة "${s.name}" من ${old.status} إلى ${s.status} بواسطة ${user.name}`);
+        } else {
+          await pushNotif("edit", `✏️ تم تعديل العملية: "${s.name}" (${s.id}) بواسطة ${user.name}`);
+        }
+        return s;
       };
-
       const deleteJob = async (id) => {
+        const job = jobs.find(j => j.id === id);
         await fbDeleteJob(id);
-        setJobs(prev => prev.filter(j => j.id !== id));
+        // setJobs not needed — real-time listener updates automatically
+        await pushNotif("delete", `🗑️ تم حذف العملية: "${job?.name||id}" بواسطة ${user.name}`);
       };
-
-      const saveUser = async (u) => {
-        const saved = await fbSaveUser(u);
-        setUsers(prev => {
-          const idx = prev.findIndex(x => x.uid === saved.uid);
-          return idx >= 0 ? prev.map(x => x.uid===saved.uid ? saved : x) : [...prev, saved];
-        });
-        return saved;
-      };
-
-      const updateUser = async (uid, changes) => {
-        await fbUpdateUser(uid, changes);
-        setUsers(prev => prev.map(u => u.uid===uid ? {...u, ...changes} : u));
-      };
-
-      const deleteUser = async (uid) => {
-        await fbDeleteUser(uid);
-        setUsers(prev => prev.filter(u => u.uid !== uid));
+      const saveUser   = async (u)   => { const s=await fbSaveUser(u); return s; };
+      const updateUser = async (uid,ch)=>{ await fbUpdateUser(uid,ch); };
+      const deleteUser = async (uid) => { await fbDeleteUser(uid); };
+      const changePass = async (email, newPass) => {
+        USER_PASSWORDS[email] = newPass;
+        await fbSavePasswords();
       };
 
       if (loading) return (
-        <div style={{minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",gap:16}}>
+        <div style={{minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",gap:16,background:"#0d0f14"}}>
+          <style>{"@keyframes spin{to{transform:rotate(360deg)}}"}</style>
           <div style={{width:40,height:40,border:"3px solid #252a38",borderTopColor:"#e63946",borderRadius:"50%",animation:"spin .8s linear infinite"}}></div>
-          <div style={{fontFamily:"JetBrains Mono,monospace",fontSize:12,color:"#6b7280",letterSpacing:2}}>CONNECTING TO DATABASE...</div>
+          <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:12,color:"#6b7280",letterSpacing:2}}>CONNECTING TO DATABASE...</div>
         </div>
       );
 
-      if (!user) return <LoginPage onLogin={u => setUser(u)} users={users} />;
+      if (!user) return <LoginPage onLogin={handleLogin} users={users} />;
 
-      const sharedProps = {
-        user, onLogout: logout, onToggleView: handleToggleView,
-        jobs, setJobs,
-        users, setUsers,
-        saveJob, deleteJob, saveUser, updateUser, deleteUser,
-        toast: showToast
-      };
+      const sharedProps = { user, onLogout:logout, onToggleView:handleToggleView, jobs, setJobs, users, setUsers, saveJob, deleteJob, saveUser, updateUser, deleteUser, onChangePass:changePass, toast:showToast, notifRef };
 
       return (
         <>
-          {isDesktop
-            ? <DesktopLayout {...sharedProps} />
-            : <MobileLayout  {...sharedProps} />
-          }
+          {isDesktop ? <DesktopLayout {...sharedProps} /> : <MobileLayout {...sharedProps} />}
           {toast && <div className={`toast ${toast.type}`}>{toast.msg}</div>}
         </>
       );
